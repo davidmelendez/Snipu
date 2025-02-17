@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import React from "react";
 import { deleteSnippet } from "@/actions";
+import { notFound } from "next/navigation";
 
 type SnippetDetailsProps = {
   params: Promise<{id: string}>;
@@ -13,15 +14,15 @@ const SnippetDetailPage : React.FC<SnippetDetailsProps> = async ({
   params}) => {
   const id = parseInt((await params).id);
 
+  await new Promise((r) => setTimeout(r, 2000));
+
   const snippet = await prisma.snippet.findUnique({
     where: {
       id
     },
   });
 
-  if(!snippet) {
-    return <h1>Snippet not found</h1>
-  }
+  if(!snippet) notFound();
 
   const deleteSnippetActions = deleteSnippet.bind(null, snippet.id);
 
