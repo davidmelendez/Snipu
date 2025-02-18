@@ -2,6 +2,8 @@
 
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+
 
 export const saveSnippet = async (id: number, code: string) => {
     await prisma.snippet.update({
@@ -20,6 +22,7 @@ export const deleteSnippet = async(id: number) => {
     await prisma.snippet.delete({
         where: {id}
     });
+    revalidatePath("/");
     redirect("/");
 }
 
@@ -45,11 +48,15 @@ export async function createSnippet(prevState:{message:string},formData: FormDat
           }
         })
 
-        throw new Error("Something went wrong");
+        //throw new Error("Something went wrong");
+       revalidatePath("/");
        
-    } catch (error: any) {
-        return {message: error.message}
-        
+    } catch (error: unknown) {
+        if(error instanceof Error){
+            return {message: error.message}
+        } else {
+            return {message: "Something went wrong"}
+        }  
     }
 
 
