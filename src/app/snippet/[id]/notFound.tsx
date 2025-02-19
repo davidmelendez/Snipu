@@ -2,7 +2,7 @@ import React from 'react'
 
 const SnippetNotFound = () => {
   return (
-    <div>SnippetNotFound</div>
+    <div className='text-white'>SnippetNotFound</div>
   )
 }
 
