@@ -1,7 +1,7 @@
 export default async function Home() {
   return (
-    <div>
+    <h1 className="text-white text-6xl font-bold flex justify-center items-center h-screen">
       Snipu
-    </div>
+    </h1>
   );
 }
