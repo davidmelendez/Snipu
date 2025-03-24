@@ -3,7 +3,6 @@
 **Revolutionizing Code Sharing in Web3 with Blockchain-Powered Collaboration**
 ![Snipu Logo](https://raw.githubusercontent.com/SudiptaPaul-31/Snipu/refs/heads/main/images/logo.jpg)
 
-
 <p align="center">
   <a href="https://github.com/SudiptaPaul-31/Snipu"><img src="https://img.shields.io/badge/BUILD-PASSING-brightgreen?style=for-the-badge&logo=github&logoColor=white&labelColor=black" alt="BUILD"></a>
   <a href="https://www.cairo-lang.org/"><img src="https://img.shields.io/badge/CAIRO-1a1a1a?style=for-the-badge&logo=cairo&logoColor=white" alt="CAIRO"></a>
@@ -26,21 +25,25 @@ The Snipu platform offers a streamlined experience for developers looking to wor
 1. **Home Page**: Users are greeted with an overview of Snipu's capabilities and key features.
 
 2. **Script Editor**:
+
    - Write custom Bitcoin scripts directly in the browser
    - Access a library of template scripts for common use cases
    - Syntax highlighting and error checking in real-time
 
 3. **Compiler Interface**:
+
    - Compile Bitcoin scripts into Cairo-compatible format
    - View detailed compilation logs and debugging information
    - Export compiled scripts for integration with other projects
 
 4. **Testing Environment**:
+
    - Execute compiled scripts in a sandboxed environment
    - Provide custom inputs and witness data for script execution
    - View execution results and stack states
 
 5. **Documentation Center**:
+
    - Access comprehensive guides on using Snipu
    - Reference materials for Bitcoin Script opcodes and their Cairo implementations
    - Step-by-step tutorials for common development scenarios
@@ -53,31 +56,37 @@ The Snipu platform offers a streamlined experience for developers looking to wor
 ## Features
 
 ### Core VM Implementation
+
 - Full implementation of Bitcoin Script opcodes in Cairo
 - Stack-based execution environment matching Bitcoin's processing model
 - Accurate handling of Bitcoin's execution constraints and edge cases
 
 ### Script Compilation
+
 - Bitcoin Script to Cairo transpilation with optimization
 - Support for both legacy and SegWit script formats
 - Preservation of script semantics across languages
 
 ### Verification Tools
+
 - Zero-knowledge proof generation for script execution
 - On-chain verification of Bitcoin script execution on Layer 2
 - Cryptographic linking between Bitcoin and Cairo execution environments
 
 ### Developer Tools
+
 - Comprehensive API for integrating Snipu into existing applications
 - CLI tools for batch processing and automation
 - Detailed execution logs for debugging complex scripts
 
 ### Interoperability Features
+
 - Cross-chain messaging capabilities using Bitcoin scripts
 - Bitcoin transaction verification on Layer 2 platforms
 - Bridge mechanisms for Bitcoin-based assets
 
 ### Security Components
+
 - Formal verification of core VM components
 - Comprehensive test suite covering edge cases
 - Security audit-ready architecture
@@ -85,6 +94,7 @@ The Snipu platform offers a streamlined experience for developers looking to wor
 ## Technologies Used
 
 ### Core Technologies
+
 - **Cairo Language** (v1.0.0): Zero-knowledge friendly programming language for VM implementation
 - **Bitcoin Script**: Native Bitcoin scripting language supported by the VM
 - **React** (v18.2.0): Frontend framework for the web interface
@@ -92,11 +102,13 @@ The Snipu platform offers a streamlined experience for developers looking to wor
 - **Node.js** (v16.20.0): Runtime environment for development tools
 
 ### Backend Stack
+
 - **Rust** (v1.70.0): Performance-critical components and optimization
 - **Scarb** (v0.7.0): Cairo package manager
 - **StarkNet** (v0.13.0): Layer 2 integration for on-chain verification
 
 ### Frontend Libraries
+
 - **Redux** (v8.1.0): State management for the application
 - **Material UI** (v5.13.0): Component library for consistent UI
 - **Monaco Editor** (v0.40.0): Code editor for script writing
@@ -104,6 +116,7 @@ The Snipu platform offers a streamlined experience for developers looking to wor
 - **D3.js** (v7.8.5): Data visualization for script execution
 
 ### Development Tools
+
 - **Docker** (v24.0.5): Containerization for consistent development and deployment
 - **GitHub Actions**: CI/CD pipeline for automated testing and deployment
 - **Jest** (v29.5.0): Testing framework for frontend components
@@ -111,6 +124,7 @@ The Snipu platform offers a streamlined experience for developers looking to wor
 - **ESLint** (v8.40.0): Code quality and style enforcement
 
 ### Security Tools
+
 - **Slither**: Smart contract static analyzer
 - **Cairo-Test**: Cairo-specific testing framework
 - **OpenZeppelin Contracts**: Secure, reusable smart contract components
@@ -118,6 +132,7 @@ The Snipu platform offers a streamlined experience for developers looking to wor
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js (v18 or higher)
 - Rust (v1.70 or higher)
 - Starknet wallet (ArgentX or Braavos)
@@ -126,7 +141,8 @@ The Snipu platform offers a streamlined experience for developers looking to wor
 ### Installation
 
 1. Clone the repository:
-```bash
+
+````bash
 git clone https://github.com/SudiptaPaul-31/Snipu.git
 cd Snipu
 
@@ -135,8 +151,10 @@ cd Snipu
 1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/snipu.git
-```
+````
+
 2. Install dependencies :
+
 ```bash
 npm install
 # or
@@ -146,7 +164,9 @@ pnpm install
 # or
 bun install
 ```
+
 3. Running locally:
+
 ```bash
 npm run dev
 # or
@@ -156,3 +176,6 @@ pnpm dev
 # or
 bun dev
 ```
+
+<!-- CONTRIBUTORS-START -->
+<!-- CONTRIBUTORS-END -->
