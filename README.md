@@ -6,7 +6,6 @@
 
 <p align="center">
   <a href="https://github.com/SudiptaPaul-31/Snipu"><img src="https://img.shields.io/badge/BUILD-PASSING-brightgreen?style=for-the-badge&logo=github&logoColor=white&labelColor=black" alt="BUILD"></a>
-  <a href="https://bitcoin.org/"><img src="https://img.shields.io/badge/BITCOIN-000000?style=for-the-badge&logo=bitcoin&logoColor=white" alt="BITCOIN"></a>
   <a href="https://www.cairo-lang.org/"><img src="https://img.shields.io/badge/CAIRO-1a1a1a?style=for-the-badge&logo=cairo&logoColor=white" alt="CAIRO"></a>
   <a href="https://reactjs.org/"><img src="https://img.shields.io/badge/REACT-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="REACT"></a>
 </p>
@@ -14,7 +13,6 @@
 <p align="center">
   <a href="https://github.com/SudiptaPaul-31"><img src="https://img.shields.io/badge/EXPLORATION_TEAM-212121?style=for-the-badge" alt="EXPLORATION TEAM"></a>
   <a href="https://t.me/bitcoinwildlife"><img src="https://img.shields.io/badge/TELEGRAM-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="TELEGRAM"></a>
-  <a href="https://twitter.com/bitcoinwildlife"><img src="https://img.shields.io/badge/BITCOINWILDLIFE-F7931A?style=for-the-badge&logo=x&logoColor=white" alt="BITCOINWILDLIFE"></a>
 </p>
 
 ## Overview
