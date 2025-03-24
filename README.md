@@ -1,6 +1,9 @@
 # Snipu - Bitcoin Script VM in Cairo
 
+**Revolutionizing Code Sharing in Web3 with Blockchain-Powered Collaboration**
+https://www.figma.com/design/oIHbOSsx4lD5aIL1VMZDOC/Create-Snippet?node-id=0-1&t=8g9ld0j1NFLo4t3A-1
 ![Snipu Logo](https://raw.githubusercontent.com/SudiptaPaul-31/Snipu/refs/heads/main/images/logo.jpg)
+
 
 <p align="center">
   <a href="https://github.com/SudiptaPaul-31/Snipu"><img src="https://img.shields.io/badge/BUILD-PASSING-brightgreen?style=for-the-badge&logo=github&logoColor=white&labelColor=black" alt="BUILD"></a>
