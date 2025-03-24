@@ -178,4 +178,82 @@ bun dev
 ```
 
 <!-- CONTRIBUTORS-START -->
+## Contributors
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/SudiptaPaul-31">
+        <img src="https://avatars.githubusercontent.com/u/117905151?v=4" width="64" height="64" alt="SudiptaPaul-31"><br />
+        <sub><b>SudiptaPaul-31</b></sub>
+      </a><br />
+      <sub>32 commits</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/anneyomeje">
+        <img src="https://avatars.githubusercontent.com/u/103583132?v=4" width="64" height="64" alt="anneyomeje"><br />
+        <sub><b>anneyomeje</b></sub>
+      </a><br />
+      <sub>2 commits</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Davidemulo">
+        <img src="https://avatars.githubusercontent.com/u/161654052?v=4" width="64" height="64" alt="Davidemulo"><br />
+        <sub><b>Davidemulo</b></sub>
+      </a><br />
+      <sub>2 commits</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/emarc99">
+        <img src="https://avatars.githubusercontent.com/u/57766083?v=4" width="64" height="64" alt="emarc99"><br />
+        <sub><b>emarc99</b></sub>
+      </a><br />
+      <sub>1 commits</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Pheenah">
+        <img src="https://avatars.githubusercontent.com/u/98043346?v=4" width="64" height="64" alt="Pheenah"><br />
+        <sub><b>Pheenah</b></sub>
+      </a><br />
+      <sub>1 commits</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/sergejparity">
+        <img src="https://avatars.githubusercontent.com/u/85877331?v=4" width="64" height="64" alt="sergejparity"><br />
+        <sub><b>sergejparity</b></sub>
+      </a><br />
+      <sub>1 commits</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Shashwat-Nautiyal">
+        <img src="https://avatars.githubusercontent.com/u/148687529?v=4" width="64" height="64" alt="Shashwat-Nautiyal"><br />
+        <sub><b>Shashwat-Nautiyal</b></sub>
+      </a><br />
+      <sub>1 commits</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/viktrified">
+        <img src="https://avatars.githubusercontent.com/u/137406385?v=4" width="64" height="64" alt="viktrified"><br />
+        <sub><b>viktrified</b></sub>
+      </a><br />
+      <sub>1 commits</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Patrick-Ehimen">
+        <img src="https://avatars.githubusercontent.com/u/120640001?v=4" width="64" height="64" alt="Patrick-Ehimen"><br />
+        <sub><b>Patrick-Ehimen</b></sub>
+      </a><br />
+      <sub>1 commits</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/yashtech00">
+        <img src="https://avatars.githubusercontent.com/u/141262414?v=4" width="64" height="64" alt="yashtech00"><br />
+        <sub><b>yashtech00</b></sub>
+      </a><br />
+      <sub>1 commits</sub>
+    </td>
+  </tr>
+</table>
 <!-- CONTRIBUTORS-END -->
