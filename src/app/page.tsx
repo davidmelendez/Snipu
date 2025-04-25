@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import MidSection from "@/components/MidSection";
 import Header from "@/components/Navbar/Navbar";
 
@@ -6,6 +7,7 @@ export default async function Home() {
     <div className="h-screen">
       <Header />
       <MidSection />
+      <Footer />
     </div>
   );
 }
