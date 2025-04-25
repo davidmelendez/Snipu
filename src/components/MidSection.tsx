@@ -5,7 +5,7 @@ import React from 'react'
 
 const MidSection = () => {
   return (
-    <div className='bg-hero-gradient w-full h-full flex flex-col items-center p-10 lg:p-16 space-y-10'>
+    <div className='bg-hero-gradient w-full h-[83%] flex flex-col items-center p-10 lg:p-16 space-y-10'>
         <div className='text-4xl w-full lg:text-6xl text-center flex flex-col font-bold space-y-3'>
             <h1 className="bg-gradient-to-r from-gray-900 via-gray-50 to-white inline-block text-transparent bg-clip-text">Quickly save, share, manage </h1>
             <h1 className="bg-gradient-to-r from-gray-900 via-gray-50 to-white inline-block text-transparent bg-clip-text">your code snippets.</h1>
