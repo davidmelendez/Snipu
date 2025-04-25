@@ -1,7 +1,13 @@
+import Footer from "@/components/Footer";
+import MidSection from "@/components/MidSection";
+import Header from "@/components/Navbar/Navbar";
+
 export default async function Home() {
   return (
-    <h1 className="text-white text-6xl font-bold flex justify-center items-center h-screen">
-      Snipu
-    </h1>
+    <div className="h-screen">
+      <Header />
+      <MidSection />
+      <Footer />
+    </div>
   );
 }
