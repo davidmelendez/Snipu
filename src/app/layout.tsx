@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import StarknetProvider from "./providers/starknet-provider";
+import { WalletProvider } from "./providers/wallet-connect-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,10 +29,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-
-        <div className="container max-w-full">
-          {children}
-        </div>
+    <StarknetProvider>
+              <WalletProvider>{children}</WalletProvider>
+            </StarknetProvider>
       </body>
     </html>
   );

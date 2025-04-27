@@ -25,7 +25,7 @@ export default async function Home() {
             </Link>
           </div>
 
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             {snippets.map((snippet, index) => (
               <Link
                 key={snippet.id}
@@ -47,13 +47,13 @@ export default async function Home() {
                 </div>
               </Link>
             ))}
-          </div>
+          </div> */}
 
-          {snippets.length === 0 && (
+          {/* {snippets.length === 0 && (
             <div className="text-center py-12 animate-pulse">
               <p className="text-blue-400 text-lg">No snippets found. Create your first one!</p>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>
