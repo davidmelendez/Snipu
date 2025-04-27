@@ -1,4 +1,4 @@
-# Snipu Landing Page Figma Design
+# Snipu Landing Page Figma Design (modified)
 
 Here’s the Figma design link:
 
@@ -7,4 +7,5 @@ Here’s the Figma design link:
 
 
 Exported Image:
-![Landing Page Design](./SNIPU_LandingPage_design1.png)
+![Landing Page Design](./SNIPU_LandingPage_design2.png)
+
