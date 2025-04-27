@@ -113,7 +113,9 @@ export function ConnectButton() {
                         : 'opacity-50 cursor-not-allowed'}`}
                   >
                     {typeof connector.icon === 'string' && (
-                      <img 
+                      <Image
+                      width={20}
+                      height={20} 
                         src={connector.icon} 
                         alt={connector.name} 
                         className="w-8 h-8 rounded-full"
