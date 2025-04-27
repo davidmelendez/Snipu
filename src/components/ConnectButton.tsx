@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from "react";
 import { useAccount, useConnect, useDisconnect, Connector } from "@starknet-react/core";
 import Image from "next/image";
 
-// Function to truncate address for display
 const truncateAddress = (address: string) => {
   if (!address) return "";
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -17,7 +16,6 @@ export function ConnectButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -31,13 +29,11 @@ export function ConnectButton() {
     };
   }, []);
   
-  // Handle wallet connection
   const handleConnect = (connector: Connector) => {
     connect({ connector });
     setIsModalOpen(false);
   };
   
-  // Handle wallet disconnection
   const handleDisconnect = () => {
     disconnect();
     setIsDropdownOpen(false);
@@ -79,7 +75,6 @@ export function ConnectButton() {
         </button>
       )}
       
-      {/* Connect Wallet Modal */}
       {isModalOpen && (
         <div 
           className="fixed inset-0 bg-[#101213] bg-opacity-50 flex justify-center items-center z-50"
