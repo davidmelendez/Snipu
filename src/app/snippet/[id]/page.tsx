@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { deleteSnippet } from "@/actions";
 import { notFound } from "next/navigation";
+import CommentSection from "@/components/Comments/CommentSection";
 
 type SnippetDetailsProps = {
   params: Promise<{ id: string }>;
@@ -11,19 +12,19 @@ type SnippetDetailsProps = {
 
 const SnippetDetailPage: React.FC<SnippetDetailsProps> = async ({ params }) => {
   const id = parseInt((await params).id);
-  
+
   await new Promise((r) => setTimeout(r, 2000));
-  
+
   const snippet = await prisma.snippet.findUnique({
     where: {
       id,
     },
   });
-  
+
   if (!snippet) notFound();
-  
+
   const deleteSnippetActions = deleteSnippet.bind(null, snippet.id);
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 bg-fixed">
       <div className="max-w-4xl mx-auto p-8 animate-fade-in">
@@ -38,10 +39,10 @@ const SnippetDetailPage: React.FC<SnippetDetailsProps> = async ({ params }) => {
                   Edit
                 </Button>
               </Link>
-              
+
               <form action={deleteSnippetActions}>
-                <Button 
-                  variant={"destructive"} 
+                <Button
+                  variant={"destructive"}
                   type="submit"
                   className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white transition-all duration-200 hover:scale-105"
                 >
@@ -50,7 +51,7 @@ const SnippetDetailPage: React.FC<SnippetDetailsProps> = async ({ params }) => {
               </form>
             </div>
           </div>
-          
+
           <div className="group">
             <pre className="p-6 bg-gradient-to-r from-slate-800 to-slate-900 rounded-xl border border-slate-700 hover:border-blue-500 transition-all duration-300 overflow-x-auto">
               <code className="text-blue-200 font-mono text-sm">
@@ -58,8 +59,13 @@ const SnippetDetailPage: React.FC<SnippetDetailsProps> = async ({ params }) => {
               </code>
             </pre>
           </div>
-          
-          <Link 
+
+          {/* Comment Section */}
+          <div className="mt-8 bg-slate-800/30 rounded-xl p-6 border border-slate-700">
+            <CommentSection snippetId={snippet.id} />
+          </div>
+
+          <Link
             href="/"
             className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors mt-4"
           >
@@ -75,7 +81,7 @@ export default SnippetDetailPage;
 
 export const generateStaticParams = async () => {
   const snippets = await prisma.snippet.findMany();
-  
+
   return snippets.map((snippet) => {
     return { id: snippet.id.toString() };
   });
