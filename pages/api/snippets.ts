@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -16,7 +17,7 @@ export default async function handler(
       const skip = (page - 1) * limit;
 
       // Build filter conditions
-      const where: any = {};
+      const where: Prisma.SnippetWhereInput = {};
       if (language) {
         where.language = language;
       }
