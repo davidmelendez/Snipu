@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   addComment,
   getSnippetComments,
@@ -25,6 +25,14 @@ interface CommentSectionProps {
   snippetId: number;
 }
 
+// Add this type for backend comments
+// createdAt and updatedAt can be string or Date
+
+type BackendComment = Omit<Comment, "createdAt" | "updatedAt"> & {
+  createdAt: string | Date;
+  updatedAt: string | Date;
+};
+
 export default function CommentSection({ snippetId }: CommentSectionProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
@@ -32,16 +40,27 @@ export default function CommentSection({ snippetId }: CommentSectionProps) {
   const [editContent, setEditContent] = useState("");
   const { user } = useUser();
 
-  useEffect(() => {
-    loadComments();
-  }, [snippetId]);
-
-  const loadComments = async () => {
+  const loadComments = useCallback(async () => {
     const result = await getSnippetComments(snippetId);
     if (result.success) {
-      setComments(result.data);
+      const comments = (result.data ?? []).map((comment: BackendComment) => ({
+        ...comment,
+        createdAt:
+          comment.createdAt instanceof Date
+            ? comment.createdAt.toISOString()
+            : comment.createdAt,
+        updatedAt:
+          comment.updatedAt instanceof Date
+            ? comment.updatedAt.toISOString()
+            : comment.updatedAt,
+      }));
+      setComments(comments);
     }
-  };
+  }, [snippetId]);
+
+  useEffect(() => {
+    loadComments();
+  }, [loadComments]);
 
   const handleAddComment = async () => {
     if (!user || !newComment.trim()) return;
