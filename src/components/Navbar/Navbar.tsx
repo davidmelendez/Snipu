@@ -4,6 +4,7 @@ import { X, Menu } from "lucide-react";
 import React, { useState } from 'react';
 import Image from 'next/image';
 import NavLink from './NavLink';
+import { ConnectButton } from "../ConnectButton";
 
 
 
@@ -34,9 +35,7 @@ const Header = () => {
             </div>
           </div>
           <div className="hidden md:flex text-white space-x-4">
-                <button className='px-4 py-2 rounded-md border-[0.5px] border-white'>
-                Connect Wallet
-                </button>
+              < ConnectButton />
                 
           </div>
 
@@ -59,9 +58,7 @@ const Header = () => {
             <NavLink href='#templates'> Templates</NavLink>
             <NavLink href='#resources'>Resources</NavLink>
             <div className="flex flex-col md:hidden w-fit text-white space-y-4">
-               <button className='px-4 py-2 rounded-md border-[0.5px] border-white'>
-                Connect Wallet
-                </button>
+            < ConnectButton />
                 
           </div>
           </div>
