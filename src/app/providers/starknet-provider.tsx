@@ -13,12 +13,12 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
   const { connectors } = useInjectedConnectors({
     recommended: [braavos(), argent()],
     includeRecommended: "onlyIfNoConnectors",
-    order: "alphabetical",
+    order: "random"
   });
 
   return (
     <StarknetConfig
-    chains={[mainnet, sepolia]}
+      chains={[mainnet, sepolia]}
       provider={publicProvider()}
       connectors={connectors}
       explorer={starkscan}
