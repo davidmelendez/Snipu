@@ -50,13 +50,21 @@ pub mod SnippetStorage {
         new_snippet: felt252,
     }
 
-    // Constructor
-    #[constructor]
-    fn constructor(ref self: ContractState, owner: ContractAddress) {
-        assert(owner != contract_address_const::<0>(), 'Owner cannot be zero');
-        self.owner.write(owner);
+    #[derive(Drop, starknet::Event)]
+    struct CommentAdded {
+        snippet_id: felt252,
+        sender: ContractAddress,
+        timestamp: felt252,
+        content: felt252,
     }
 
+    #[storage]
+    struct Storage {
+        owner: ContractAddress,
+        user_snippets: Map<ContractAddress, felt252>,
+        snippet_store: Map<felt252, felt252>,
+        comments: Map<felt252, (ContractAddress, felt252, felt252)>,
+    }
 
     #[abi(embed_v0)]
     pub impl SnippetStorageImpl of ISnippetStorage<ContractState> {
@@ -91,6 +99,18 @@ pub mod SnippetStorage {
             self.snippet_store.write(snippet_id, new_snippet);
 
             self.emit(SnippetUpdated { snippet_id: snippet_id, new_snippet: new_snippet });
+        }
+
+        fn add_comment(ref self: ContractState, snippet_id: felt252, content: felt252) {
+            let caller = get_caller_address();
+            let timestamp = starknet::get_block_timestamp();
+            self.comments.write(snippet_id, (caller, timestamp, content));
+
+            self.emit(CommentAdded { snippet_id: snippet_id, sender: caller, timestamp: timestamp, content: content });
+        }
+
+        fn get_comments(self: @ContractState, snippet_id: felt252) -> (ContractAddress, felt252, felt252) {
+            self.comments.read(snippet_id)
         }
     }
 }
