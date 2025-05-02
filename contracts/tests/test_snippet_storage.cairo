@@ -1,4 +1,3 @@
-// snippet_storage_test.cairo
 use snforge_std::{
     ContractClassTrait, DeclareResultTrait, declare, start_cheat_caller_address,
     stop_cheat_caller_address,
@@ -7,8 +6,9 @@ use snippet_storage::interfaces::isnippet_storage::{
     ISnippetStorageDispatcher, ISnippetStorageDispatcherTrait,
 };
 use starknet::{ContractAddress, contract_address_const};
+use core::array::ArrayTrait;
 
-// Helper to initialize contract with default owner(if at anypoint needed!)
+// Helper to initialize contract with default owner
 fn init_contract() -> ISnippetStorageDispatcher {
     let owner = contract_address_const::<12345>();
     let contract_class = declare("SnippetStorage").unwrap().contract_class();
@@ -24,31 +24,38 @@ fn user_b() -> ContractAddress {
     contract_address_const::<54321>()
 }
 
+// //Helper function to check if an array contains a value
+// fn array_contains<T, +Drop<T>, +PartialEq<T>>(arr: @Array<T>, value: T) -> bool {
+//     let mut i = 0;
+//     while i < arr.len() {
+//         if *arr.at(i) == value {
+//             return true;
+//         }
+//         i += 1;
+//     };
+//     false
+// }
+
 #[test]
 fn test_constructor_rejects_zero_address() {
     let contract_class = declare("SnippetStorage").unwrap().contract_class();
     let zero_address = contract_address_const::<0>();
     let deploy_result = contract_class.deploy(@array![zero_address.into()]);
-
-    // Check deployment failed
-    assert(deploy_result.is_err(), 'Deployment should have failed');
-
-    // Extract panic data and verify it contains the expected error
-    let panic_data = deploy_result.unwrap_err();
-    assert(*panic_data.at(0) == 'Owner cannot be zero', 'Incorrect panic data');
+    match deploy_result {
+        Result::Ok(_) => assert(false, 'Deployment should have failed'),
+        Result::Err(panic_data) => {
+            assert(*panic_data.at(0) == 'Owner cannot be zero', 'Incorrect panic data');
+        }
+    }
 }
 
 #[test]
 fn test_store_and_retrieve_snippet() {
     let contract = init_contract();
     let snippet_hash = 42;
-
-    // User A stores snippet
     start_cheat_caller_address(contract.contract_address, user_a());
     contract.store_snippet(snippet_hash);
     stop_cheat_caller_address(contract.contract_address);
-
-    // Verify retrieval
     let stored_hash = contract.get_snippet(user_a());
     assert(stored_hash == snippet_hash, 'Stored hash mismatch');
 }
@@ -59,16 +66,10 @@ fn test_snippet_lifecycle() {
     let snippet_id = 1;
     let initial_content = 100;
     let updated_content = 200;
-
-    // Add initial snippet
     contract.add_snippet(snippet_id, initial_content);
     assert(contract.get_snippet_by_id(snippet_id) == initial_content, 'Add failed');
-
-    // Update snippet
     contract.update_snippet(snippet_id, updated_content);
     assert(contract.get_snippet_by_id(snippet_id) == updated_content, 'Update failed');
-
-    // Remove snippet
     contract.remove_snippet(snippet_id);
     assert(contract.get_snippet_by_id(snippet_id) == 0, 'Remove failed');
 }
@@ -79,24 +80,15 @@ fn test_event_functionality() {
     let snippet_id = 5;
     let content = 500;
     let updated_content = content + 1;
-
-    // Test store_snippet functionality
     start_cheat_caller_address(contract.contract_address, user_b());
     contract.store_snippet(content);
     assert(contract.get_snippet(user_b()) == content, 'Store snippet failed');
-
-    // Test add_snippet functionality
     contract.add_snippet(snippet_id, content);
     assert(contract.get_snippet_by_id(snippet_id) == content, 'Add snippet failed');
-
-    // Test update_snippet functionality
     contract.update_snippet(snippet_id, updated_content);
     assert(contract.get_snippet_by_id(snippet_id) == updated_content, 'Update snippet failed');
-
-    // Test remove_snippet functionality
     contract.remove_snippet(snippet_id);
     assert(contract.get_snippet_by_id(snippet_id) == 0, 'Remove snippet failed');
-
     stop_cheat_caller_address(contract.contract_address);
 }
 
@@ -105,16 +97,62 @@ fn test_multiple_users() {
     let contract = init_contract();
     let hash_a = 111;
     let hash_b = 222;
-
-    // User A stores
     start_cheat_caller_address(contract.contract_address, user_a());
     contract.store_snippet(hash_a);
-
-    // User B stores
     start_cheat_caller_address(contract.contract_address, user_b());
     contract.store_snippet(hash_b);
-
-    // Verify separate storage
     assert(contract.get_snippet(user_a()) == hash_a, 'User A data corrupted');
     assert(contract.get_snippet(user_b()) == hash_b, 'User B data corrupted');
+}
+
+#[test]
+fn test_get_user_snippets() {
+    let contract = init_contract();
+    let user = user_a();
+    start_cheat_caller_address(contract.contract_address, user);
+    contract.add_snippet(1, 100);
+    contract.add_snippet(2, 200);
+    contract.add_snippet(3, 300);
+    let snippets = contract.get_user_snippets(user);
+    assert(snippets.len() == 3, 'Incorrect number of snippets');
+    assert(*snippets.at(0) == 1, 'Snippet ID 0 mismatch');
+    assert(*snippets.at(1) == 2, 'Snippet ID 1 mismatch');
+    assert(*snippets.at(2) == 3, 'Snippet ID 2 mismatch');
+    contract.add_snippet(4, 400);
+    let snippets = contract.get_user_snippets(user);
+    assert(snippets.len() == 4, 'Incorrect number after adding');
+    assert(*snippets.at(3) == 4, 'Snippet ID 3 mismatch');
+    contract.remove_snippet(2);
+    let snippets = contract.get_user_snippets(user);
+    assert(snippets.len() == 3, 'Incorrect number after removing');
+    let expected_ids = array![1, 3, 4];
+    let mut i = 0;
+    while i < snippets.len() {
+        let id = *snippets.at(i);
+        assert(expected_ids.contains(id), 'Unexpected snippet ID');
+        i += 1;
+    };
+    stop_cheat_caller_address(contract.contract_address);
+}
+
+#[test]
+fn test_multiple_users_snippets() {
+    let contract = init_contract();
+    let user1 = user_a();
+    let user2 = user_b();
+    start_cheat_caller_address(contract.contract_address, user1);
+    contract.add_snippet(1, 100);
+    contract.add_snippet(2, 200);
+    start_cheat_caller_address(contract.contract_address, user2);
+    contract.add_snippet(3, 300);
+    contract.add_snippet(4, 400);
+    let user1_snippets = contract.get_user_snippets(user1);
+    assert(user1_snippets.len() == 2, 'User1 should have 2 snippets');
+    assert(*user1_snippets.at(0) == 1, 'User1 snippet 0 mismatch');
+    assert(*user1_snippets.at(1) == 2, 'User1 snippet 1 mismatch');
+    let user2_snippets = contract.get_user_snippets(user2);
+    assert(user2_snippets.len() == 2, 'User2 should have 2 snippets');
+    assert(*user2_snippets.at(0) == 3, 'User2 snippet 0 mismatch');
+    assert(*user2_snippets.at(1) == 4, 'User2 snippet 1 mismatch');
+    stop_cheat_caller_address(contract.contract_address);
 }
