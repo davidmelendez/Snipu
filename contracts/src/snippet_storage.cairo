@@ -9,7 +9,7 @@ pub mod SnippetStorage {
     const ERR_NOT_AUTHORIZED: felt252 = 'Not authorized';
     const ERR_SNIPPET_NOT_FOUND: felt252 = 'Snippet not found';
     const ERR_SNIPPET_EXISTS: felt252 = 'Snippet ID already exists';
-    
+
     #[storage]
     struct Storage {
         owner: ContractAddress,
@@ -20,6 +20,11 @@ pub mod SnippetStorage {
         user_snippet_ids: Map<(ContractAddress, u32), felt252>,
         user_snippet_index: Map<(ContractAddress, felt252), u32>,
         comments: Map<felt252, (ContractAddress, felt252, felt252)>,
+    }
+
+    #[constructor]
+    fn constructor(ref self: ContractState, owner: ContractAddress) {
+        assert(owner != contract_address_const::<0>(), 'Owner cannot be zero');
     }
 
     #[event]
@@ -123,11 +128,11 @@ pub mod SnippetStorage {
             let caller = get_caller_address();
             let timestamp: felt252 = get_block_timestamp().into(); // Convert u64 to felt252
             self.comments.write(snippet_id, (caller, timestamp, content));
-            self.emit(CommentAdded { 
-                snippet_id: snippet_id, 
-                sender: caller, 
-                timestamp: timestamp, 
-                content: content 
+            self.emit(CommentAdded {
+                snippet_id: snippet_id,
+                sender: caller,
+                timestamp: timestamp,
+                content: content
             });
         }
 
@@ -148,6 +153,12 @@ pub mod SnippetStorage {
                 i += 1;
             };
             snippets
+        }
+
+        fn is_snippet_owner(self: @ContractState, snippet_id: felt252) -> bool {
+            let caller = get_caller_address();
+            let owner = self.snippet_owner.read(snippet_id);
+            owner == caller
         }
     }
 }
