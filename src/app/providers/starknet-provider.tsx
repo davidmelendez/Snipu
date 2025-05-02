@@ -1,5 +1,5 @@
 "use client";
-import { mainnet } from "@starknet-react/chains";
+import { sepolia, mainnet } from "@starknet-react/chains";
 import {
   StarknetConfig,
   publicProvider,
@@ -11,14 +11,14 @@ import {
 
 export function StarknetProvider({ children }: { children: React.ReactNode }) {
   const { connectors } = useInjectedConnectors({
-    recommended: [argent(), braavos()],
+    recommended: [braavos(), argent()],
     includeRecommended: "onlyIfNoConnectors",
-    order: "alphabetical",
+    order: "random"
   });
 
   return (
     <StarknetConfig
-      chains={[mainnet]}
+      chains={[mainnet, sepolia]}
       provider={publicProvider()}
       connectors={connectors}
       explorer={starkscan}
