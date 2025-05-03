@@ -46,6 +46,7 @@ const CreateSnippetPage = () => {
 }
 </style>`);
   const [isEditing, setIsEditing] = useState(false);
+    const [isBookmarked, setIsBookmarked] = useState(false);
   const [isSaveEnabled, setIsSaveEnabled] = useState(false);
   const [initialDescription, setInitialDescription] = useState("");
   const [initialCode, setInitialCode] = useState(code);
@@ -125,6 +126,17 @@ const CreateSnippetPage = () => {
     }
   };
 
+  // Add this with your other functions
+  const handleToggleBookmark = () => {
+    setIsBookmarked(!isBookmarked);
+    toast({
+      title: isBookmarked ? "Removed from bookmarks" : "Added to bookmarks",
+      description: isBookmarked
+        ? "Snippet removed from your bookmarks"
+        : "Snippet saved to your bookmarks",
+      duration: 2000,
+    });
+  };
   return (
     <div className="bg-hero-gradient min-h-screen bg-[#121212] text-gray-200 flex items-center justify-center flex-col w-full">
       <Header />
