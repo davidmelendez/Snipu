@@ -13,6 +13,9 @@ import {
   Globe,
   Lock,
   Check,
+  Star,
+  Bookmark,
+  BookmarkX,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -84,6 +87,7 @@ const CreateSnippetPage = () => {
       }
 
       const savedSnippet = await response.json();
+      console.log("Snippet saved:", savedSnippet);
 
       setInitialDescription(description);
       setInitialCode(code);
@@ -137,6 +141,7 @@ const CreateSnippetPage = () => {
       duration: 2000,
     });
   };
+
   return (
     <div className="bg-hero-gradient min-h-screen bg-[#121212] text-gray-200 flex items-center justify-center flex-col w-full">
       <Header />
@@ -341,6 +346,25 @@ const CreateSnippetPage = () => {
                   >
                     <Edit className="h-4 w-4 mr-2" />
                     <span>{isEditing ? "Cancel" : "Edit"}</span>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-gray-400 hover:text-white hover:bg-transparent transition-colors flex items-center"
+                    onClick={handleToggleBookmark}
+                    title="Bookmark this Snippet"
+                  >
+                    {isBookmarked ? (
+                      <>
+                        <Bookmark className="h-4 w-4 mr-2 fill-current" />
+                        <span>Bookmarked</span>
+                      </>
+                    ) : (
+                      <>
+                        <BookmarkX className="h-4 w-4 mr-2" />
+                        <span>Bookmark</span>
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>

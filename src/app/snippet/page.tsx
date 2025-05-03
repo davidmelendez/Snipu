@@ -355,10 +355,6 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    fetchSnippets();
-  }, []);
-
   const toggleViewMode = () => {
     setViewMode((prev) => (prev === "grid" ? "list" : "grid"));
   };
