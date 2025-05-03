@@ -1,17 +1,33 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { ChevronDown, Code2, Share2, Copy, Edit, Globe, Lock, Check } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  ChevronDown,
+  Code2,
+  Share2,
+  Copy,
+  Edit,
+  Globe,
+  Lock,
+  Check,
+  Bookmark,
+  BookmarkX,
+} from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { toast } from "@/hooks/use-toast";
 
 const CreateSnippetPage = () => {
-  const [language, setLanguage] = useState("JavaScript + CSS")
-  const [visibility, setVisibility] = useState("Secret/Public")
-  const [framework, setFramework] = useState("React")
-  const [description, setDescription] = useState("")
+  const [language, setLanguage] = useState("JavaScript + CSS");
+  const [visibility, setVisibility] = useState("Secret/Public");
+  const [framework, setFramework] = useState("React");
+  const [description, setDescription] = useState("");
   const [code, setCode] =
     useState(`<button class="btn" onclick="this.style.backgroundColor='#'+Math.floor(Math.random()*16777215).toString(16)">Click</button>
 
@@ -26,45 +42,85 @@ const CreateSnippetPage = () => {
   border-radius: 5px;
   transition: background 0.3s;
 }
-</style>`)
-  const [isEditing, setIsEditing] = useState(false)
-  const [isSaveEnabled, setIsSaveEnabled] = useState(false)
-  const [initialDescription, setInitialDescription] = useState("")
-  const [initialCode, setInitialCode] = useState(code)
-  const [showSaveSuccess, setShowSaveSuccess] = useState(false)
+</style>`);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSaveEnabled, setIsSaveEnabled] = useState(false);
+  const [initialDescription, setInitialDescription] = useState("");
+  const [initialCode, setInitialCode] = useState(code);
+  const [showSaveSuccess, setShowSaveSuccess] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   // Check if there are unsaved changes to enable the save button
   useEffect(() => {
     const hasDescriptionChanged = description !== initialDescription;
     const hasCodeChanged = code !== initialCode;
-    
+
     setIsSaveEnabled(isEditing || hasDescriptionChanged || hasCodeChanged);
-  }, [isEditing, description, code, initialDescription, initialCode])
+  }, [isEditing, description, code, initialDescription, initialCode]);
 
   // Function to save changes and exit edit mode
-  const handleSave = () => {
-    // Save the current values as the new initial values
-    setInitialDescription(description);
-    setInitialCode(code);
-    
-    if (isEditing) {
-      setIsEditing(false);
+  const handleSave = async () => {
+    try {
+      // Make API request to save snippet
+      const response = await fetch("/api/snippets", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: description || "Untitled Snippet",
+          code: code,
+          language: language,
+          authorId: "user123", // Hardcoded for now
+          tags: framework,
+          isBookmarked: isBookmarked, // Add this line
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save snippet");
+      }
+
+      const savedSnippet = await response.json();
+      console.log("Saving snippet with the details:", savedSnippet);
+
+      // Save the current values as the new initial values
+      setInitialDescription(description);
+      setInitialCode(code);
+
+      if (isEditing) {
+        setIsEditing(false);
+      }
+
+      // Show save success indicator
+      setShowSaveSuccess(true);
+
+      // Hide success indicator after 3 seconds
+      setTimeout(() => {
+        setShowSaveSuccess(false);
+      }, 3000);
+
+      // Disable save button as changes are now saved
+      setIsSaveEnabled(false);
+
+      // Show success toast
+      toast({
+        title: "Success!",
+        description: "Snippet saved successfully",
+        duration: 2000,
+      });
+    } catch (error) {
+      console.error("Error saving snippet:", error);
+
+      // Show error toast
+      toast({
+        title: "Error",
+        description: "Failed to save snippet",
+        duration: 2000,
+        variant: "destructive",
+      });
     }
-    
-    // Show save success indicator
-    setShowSaveSuccess(true);
-    
-    // Hide success indicator after 3 seconds
-    setTimeout(() => {
-      setShowSaveSuccess(false);
-    }, 3000);
-    
-    // Disable save button as changes are now saved
-    setIsSaveEnabled(false);
-    
-    // Logic for saving the whole snippet (could be an API call)
-    console.log("Saving snippet with description:", description);
-  }
+  };
 
   // Function to copy code to clipboard with visual feedback
   const handleCopyCode = () => {
@@ -74,8 +130,19 @@ const CreateSnippetPage = () => {
       description: "Code snippet copied to clipboard",
       duration: 2000,
     });
-  }
+  };
 
+  // Add this with your other functions
+  const handleToggleBookmark = () => {
+    setIsBookmarked(!isBookmarked);
+    toast({
+      title: isBookmarked ? "Removed from bookmarks" : "Added to bookmarks",
+      description: isBookmarked
+        ? "Snippet removed from your bookmarks"
+        : "Snippet saved to your bookmarks",
+      duration: 2000,
+    });
+  };
   return (
     <div className="min-h-screen bg-[#121212] text-gray-200 flex items-center justify-center">
       <div className="w-full max-w-5xl mx-auto">
@@ -219,10 +286,10 @@ const CreateSnippetPage = () => {
               Share/Export
             </Button>
 
-            <Button 
+            <Button
               className={`${
-                showSaveSuccess 
-                  ? "bg-green-600 hover:bg-green-700" 
+                showSaveSuccess
+                  ? "bg-green-600 hover:bg-green-700"
                   : "bg-[#8B5CF6] hover:bg-[#7C3AED]"
               } text-white h-10 ml-auto transition-all duration-200 hover:scale-105 rounded-lg shadow-md flex items-center gap-2`}
               onClick={handleSave}
@@ -260,10 +327,29 @@ const CreateSnippetPage = () => {
                   variant="ghost"
                   size="sm"
                   className="text-gray-400 hover:text-white hover:bg-transparent transition-colors flex items-center"
+                  onClick={handleToggleBookmark}
+                  title="Bookmark this Snippet"
+                >
+                  {isBookmarked ? (
+                    <>
+                      <Bookmark className="h-4 w-4 mr-2 fill-current" />
+                      <span>Bookmarked</span>
+                    </>
+                  ) : (
+                    <>
+                      <BookmarkX className="h-4 w-4 mr-2" />
+                      <span>Bookmark</span>
+                    </>
+                  )}
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-400 hover:text-white hover:bg-transparent transition-colors flex items-center"
                   onClick={() => setIsEditing(!isEditing)}
                 >
                   <Edit className="h-4 w-4 mr-2" />
-                  <span>{isEditing ? 'Cancel' : 'Edit'}</span>
+                  <span>{isEditing ? "Cancel" : "Edit"}</span>
                 </Button>
               </div>
             </div>
@@ -293,7 +379,7 @@ const CreateSnippetPage = () => {
                           </div>
                         );
                       }
-                      
+
                       // Process HTML tags, CSS, and other code
                       if (line.includes("<button")) {
                         return (
@@ -306,7 +392,9 @@ const CreateSnippetPage = () => {
                             <span className="text-yellow-400">onclick</span>
                             <span className="text-white">{"="}</span>
                             <span className="text-green-400">
-                              {"\"this.style.backgroundColor='#'+Math.floor(Math.random()*16777215).toString(16)\""}
+                              {
+                                "\"this.style.backgroundColor='#'+Math.floor(Math.random()*16777215).toString(16)\""
+                              }
                             </span>
                             <span className="text-red-400">{">"}</span>
                             <span className="text-white">Click</span>
@@ -316,7 +404,7 @@ const CreateSnippetPage = () => {
                           </div>
                         );
                       }
-                      
+
                       if (line.includes("<style>")) {
                         return (
                           <div key={index}>
@@ -326,7 +414,7 @@ const CreateSnippetPage = () => {
                           </div>
                         );
                       }
-                      
+
                       if (line.includes(".btn {")) {
                         return (
                           <div key={index}>
@@ -335,31 +423,37 @@ const CreateSnippetPage = () => {
                           </div>
                         );
                       }
-                      
+
                       // CSS properties - fix for additional semicolon issue
-                      if (line.trim().startsWith("padding:") || 
-                          line.trim().startsWith("font-size:") || 
-                          line.trim().startsWith("border:") || 
-                          line.trim().startsWith("cursor:") || 
-                          line.trim().startsWith("background:") || 
-                          line.trim().startsWith("color:") || 
-                          line.trim().startsWith("border-radius:") || 
-                          line.trim().startsWith("transition:")) {
+                      if (
+                        line.trim().startsWith("padding:") ||
+                        line.trim().startsWith("font-size:") ||
+                        line.trim().startsWith("border:") ||
+                        line.trim().startsWith("cursor:") ||
+                        line.trim().startsWith("background:") ||
+                        line.trim().startsWith("color:") ||
+                        line.trim().startsWith("border-radius:") ||
+                        line.trim().startsWith("transition:")
+                      ) {
                         const [property, value] = line.trim().split(":");
                         // Check if value already has a semicolon to prevent duplicates
-                        const valueWithoutSemicolon = value.trim().endsWith(";") 
-                          ? value.trim().slice(0, -1) 
+                        const valueWithoutSemicolon = value.trim().endsWith(";")
+                          ? value.trim().slice(0, -1)
                           : value.trim();
-                        
+
                         return (
                           <div key={index}>
-                            <span className="text-green-400">{`  ${property}:`} </span>
-                            <span className="text-orange-400">{valueWithoutSemicolon}</span>
+                            <span className="text-green-400">
+                              {`  ${property}:`}{" "}
+                            </span>
+                            <span className="text-orange-400">
+                              {valueWithoutSemicolon}
+                            </span>
                             <span className="text-white">;</span>
                           </div>
                         );
                       }
-                      
+
                       if (line.trim() === "}") {
                         return (
                           <div key={index}>
@@ -367,7 +461,7 @@ const CreateSnippetPage = () => {
                           </div>
                         );
                       }
-                      
+
                       if (line.includes("</style>")) {
                         return (
                           <div key={index}>
@@ -377,7 +471,7 @@ const CreateSnippetPage = () => {
                           </div>
                         );
                       }
-                      
+
                       // Default for any other lines
                       return <div key={index}>{line}</div>;
                     })}
@@ -389,7 +483,7 @@ const CreateSnippetPage = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CreateSnippetPage
+export default CreateSnippetPage;

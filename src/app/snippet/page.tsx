@@ -1,9 +1,109 @@
+"use client";
 import { Button } from "@/components/ui/button";
-import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import type { Snippet } from "@prisma/client";
+import { Star } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
-export default async function Home() {
-  const snippets = await prisma.snippet.findMany();
+interface PaginatedResponse {
+  snippets: Snippet[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
+export default function Home() {
+  const [snippets, setSnippets] = useState<Snippet[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchSnippets = async () => {
+    try {
+      const response = await fetch("/api/snippets");
+      if (!response.ok) {
+        throw new Error("Failed to fetch snippets");
+      }
+      const data: PaginatedResponse = await response.json();
+      setSnippets(data.snippets);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load snippets");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleToggleBookmark = async (
+    e: React.MouseEvent,
+    snippet: Snippet
+  ) => {
+    e.preventDefault(); // Prevent navigation since star is inside Link
+
+    try {
+      const response = await fetch("/api/snippets", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: snippet.id,
+          isBookmarked: !snippet.isBookmarked,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update bookmark");
+      }
+
+      toast({
+        title: snippet.isBookmarked
+          ? "Removed from bookmarks"
+          : "Added to bookmarks",
+        description: snippet.isBookmarked
+          ? "Snippet removed from your bookmarks"
+          : "Snippet saved to your bookmarks",
+        duration: 2000,
+      });
+
+      // Refresh snippets after 2 seconds
+      setTimeout(() => {
+        fetchSnippets();
+      }, 2000);
+    } catch (error) {
+      console.error("Error toggling bookmark:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update bookmark status",
+        variant: "destructive",
+        duration: 2000,
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchSnippets();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <div className="text-blue-400 text-lg animate-pulse">
+          Loading snippets...
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <div className="text-red-400 text-lg">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 bg-fixed w-full">
@@ -13,11 +113,15 @@ export default async function Home() {
             <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent animate-pulse">
               Code Snippets
             </h1>
-            <p className="mt-4 text-lg text-blue-200">Your collection of useful code snippets</p>
+            <p className="mt-4 text-lg text-blue-200">
+              Your collection of useful code snippets
+            </p>
           </div>
-          
+
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-semibold text-blue-300">My Snippets</h2>
+            <h2 className="text-2xl font-semibold text-blue-300">
+              My Snippets
+            </h2>
             <Link href="/snippet/new">
               <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-lg transform transition-all duration-200 hover:scale-105 shadow-lg">
                 + New Snippet
@@ -36,7 +140,19 @@ export default async function Home() {
                 <div className="bg-gradient-to-r from-slate-800 to-slate-900 p-6 rounded-xl transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl border border-slate-700 hover:border-blue-500 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="relative z-10 flex items-center justify-between">
-                    <h3 className="text-xl font-medium text-blue-200">{snippet.title}</h3>
+                    <div className="flex items-center gap-2">
+                      <Star
+                        className={`h-5 w-5 cursor-pointer ${
+                          snippet.isBookmarked
+                            ? "fill-yellow-400 text-yellow-400"
+                            : "text-gray-400 hover:text-yellow-400"
+                        }`}
+                        onClick={(e) => handleToggleBookmark(e, snippet)}
+                      />
+                      <h3 className="text-xl font-medium text-blue-200">
+                        {snippet.title}
+                      </h3>
+                    </div>
                     <Button
                       variant="outline"
                       className="bg-transparent border border-blue-400 text-blue-300 hover:bg-blue-500/10 hover:text-blue-100 transition-colors"
@@ -47,11 +163,13 @@ export default async function Home() {
                 </div>
               </Link>
             ))}
-          </div> 
+          </div>
 
-         {snippets.length === 0 && (
+          {snippets.length === 0 && (
             <div className="text-center py-12 animate-pulse">
-              <p className="text-blue-400 text-lg">No snippets found. Create your first one!</p>
+              <p className="text-blue-400 text-lg">
+                No snippets found. Create your first one!
+              </p>
             </div>
           )}
         </div>
