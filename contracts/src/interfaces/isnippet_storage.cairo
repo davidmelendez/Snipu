@@ -8,4 +8,8 @@ pub trait ISnippetStorage<TContractState> {
     fn add_snippet(ref self: TContractState, snippet_id: felt252, snippet: felt252);
     fn remove_snippet(ref self: TContractState, snippet_id: felt252);
     fn update_snippet(ref self: TContractState, snippet_id: felt252, new_snippet: felt252);
+    fn add_comment(ref self: TContractState, snippet_id: felt252, content: felt252);
+    fn get_comments(self: @TContractState, snippet_id: felt252) -> (ContractAddress, felt252, felt252);
+    fn get_user_snippets(self: @TContractState, user: ContractAddress) -> Array<felt252>;
+    fn is_snippet_owner(self: @TContractState, snippet_id: felt252) -> bool;
 }
