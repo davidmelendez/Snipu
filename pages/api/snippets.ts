@@ -35,9 +35,14 @@ export default async function handler(
         where,
         skip,
         take: limit,
-        orderBy: {
-          createdAt: 'desc',
-        },
+        orderBy: [
+          {
+            isBookmarked: "desc", // This will put true values first
+          },
+          {
+            createdAt: "desc", // Then sort by date within each group
+          },
+        ],
       });
 
       res.status(200).json({
@@ -64,12 +69,14 @@ export default async function handler(
       language,
       authorId,
       tags,
+      isBookmarked = false, // Add default value for isBookmarked
     }: {
       title: string;
       code: string;
       language: string;
       authorId: string;
       tags: string;
+      isBookmarked?: boolean;
     } = req.body;
 
     // Validation
@@ -93,6 +100,7 @@ export default async function handler(
           language,
           authorId,
           tags,
+          isBookmarked,
         },
       });
 
@@ -103,6 +111,41 @@ export default async function handler(
         res.status(500).json({ message: error.message });
       } else {
         res.status(500).json({ message: "Something went wrong" });
+      }
+    }
+  } else if (req.method === "PATCH") {
+    console.log("PATCH request received");
+
+    const { id, isBookmarked } = req.body;
+
+    console.log("Request body:", { id, isBookmarked });
+
+    // Validate inputs
+    if (!id || typeof isBookmarked !== "boolean") {
+      console.log("Invalid input:", { id, isBookmarked });
+      return res.status(400).json({
+        message: "Invalid request. Both id and isBookmarked are required.",
+      });
+    }
+
+    try {
+      console.log("Attempting to update snippet with id:", id);
+
+      const updatedSnippet = await prisma.snippet.update({
+        where: { id: parseInt(id) },
+        data: { isBookmarked },
+      });
+
+      console.log("Snippet updated successfully:", updatedSnippet);
+
+      res.status(200).json(updatedSnippet);
+    } catch (error: unknown) {
+      console.error("Error updating snippet:", error);
+
+      if (error instanceof Error) {
+        res.status(500).json({ message: error.message });
+      } else {
+        res.status(500).json({ message: "Failed to update bookmark status" });
       }
     }
   } else {
