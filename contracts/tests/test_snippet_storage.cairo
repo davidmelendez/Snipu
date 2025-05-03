@@ -24,17 +24,17 @@ fn user_b() -> ContractAddress {
     contract_address_const::<54321>()
 }
 
-// //Helper function to check if an array contains a value
-// fn array_contains<T, +Drop<T>, +PartialEq<T>>(arr: @Array<T>, value: T) -> bool {
-//     let mut i = 0;
-//     while i < arr.len() {
-//         if *arr.at(i) == value {
-//             return true;
-//         }
-//         i += 1;
-//     };
-//     false
-// }
+//Helper function to check if an array contains a value
+fn array_contains<T, +Drop<T>, +PartialEq<T>, +Copy<T>>(arr: @Array<T>, value: T) -> bool {
+    let mut i = 0;
+    while i < arr.len() {
+        if *arr.at(i) == value {
+            return true;
+        }
+        i += 1;
+    };
+    false
+}
 
 #[test]
 fn test_constructor_rejects_zero_address() {
@@ -129,7 +129,7 @@ fn test_get_user_snippets() {
     let mut i = 0;
     while i < snippets.len() {
         let id = *snippets.at(i);
-        assert(expected_ids.contains(id), 'Unexpected snippet ID');
+        assert(array_contains(@expected_ids, id), 'Unexpected snippet ID');
         i += 1;
     };
     stop_cheat_caller_address(contract.contract_address);
@@ -154,5 +154,39 @@ fn test_multiple_users_snippets() {
     assert(user2_snippets.len() == 2, 'User2 should have 2 snippets');
     assert(*user2_snippets.at(0) == 3, 'User2 snippet 0 mismatch');
     assert(*user2_snippets.at(1) == 4, 'User2 snippet 1 mismatch');
+    stop_cheat_caller_address(contract.contract_address);
+}
+
+#[test]
+fn test_is_snippet_owner_positive() {
+    let contract = init_contract();
+    let snippet_id = 42;
+    let content = 123;
+
+    // Store a snippet as user_a
+    start_cheat_caller_address(contract.contract_address, user_a());
+    contract.add_snippet(snippet_id, content);
+
+    // Check if user_a is the owner (should return true)
+    let is_owner = contract.is_snippet_owner(snippet_id);
+    assert(is_owner == true, 'Should be the owner');
+    stop_cheat_caller_address(contract.contract_address);
+}
+
+#[test]
+fn test_is_snippet_owner_negative() {
+    let contract = init_contract();
+    let snippet_id = 42;
+    let content = 123;
+
+    // Store a snippet as user_a
+    start_cheat_caller_address(contract.contract_address, user_a());
+    contract.add_snippet(snippet_id, content);
+    stop_cheat_caller_address(contract.contract_address);
+
+    // Check if user_b is the owner (should return false)
+    start_cheat_caller_address(contract.contract_address, user_b());
+    let is_owner = contract.is_snippet_owner(snippet_id);
+    assert(is_owner == false, 'Should not be the owner');
     stop_cheat_caller_address(contract.contract_address);
 }
