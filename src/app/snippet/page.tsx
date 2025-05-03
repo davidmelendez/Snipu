@@ -20,6 +20,8 @@ export default function Home() {
   const [snippets, setSnippets] = useState<Snippet[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [bookmarkingIds, setBookmarkingIds] = useState<Set<string>>(new Set());
+
 
   const fetchSnippets = async () => {
     try {
@@ -36,11 +38,13 @@ export default function Home() {
     }
   };
 
+
   const handleToggleBookmark = async (
     e: React.MouseEvent,
     snippet: Snippet
   ) => {
-    e.preventDefault(); // Prevent navigation since star is inside Link
+    e.preventDefault(); // Prevent navigation
+    setBookmarkingIds((prev) => new Set(prev).add(snippet.id.toString()));
 
     try {
       const response = await fetch("/api/snippets", {
@@ -80,8 +84,15 @@ export default function Home() {
         variant: "destructive",
         duration: 2000,
       });
+    } finally {
+      setBookmarkingIds((prev) => {
+        const updated = new Set(prev);
+        updated.delete(snippet.id.toString());
+        return updated;
+      });
     }
   };
+
 
   useEffect(() => {
     fetchSnippets();
@@ -141,14 +152,18 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="relative z-10 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Star
-                        className={`h-5 w-5 cursor-pointer ${
-                          snippet.isBookmarked
-                            ? "fill-yellow-400 text-yellow-400"
-                            : "text-gray-400 hover:text-yellow-400"
-                        }`}
-                        onClick={(e) => handleToggleBookmark(e, snippet)}
-                      />
+                      {bookmarkingIds.has(snippet.id.toString()) ? (
+                        <div className="w-5 h-5 border-4 border-gray-300 border-t-indigo-600 rounded-full animate-spin" />
+                      ) : (
+                        <Star
+                          className={`h-5 w-5 cursor-pointer ${snippet.isBookmarked
+                              ? "fill-yellow-400 text-yellow-400"
+                              : "text-gray-400 hover:text-yellow-400"
+                            }`}
+                          onClick={(e) => handleToggleBookmark(e, snippet)}
+                        />
+                      )}
+
                       <h3 className="text-xl font-medium text-blue-200">
                         {snippet.title}
                       </h3>
