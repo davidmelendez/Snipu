@@ -8,15 +8,29 @@ datasource db {
 }
 
 model Snippet {
+  id           Int       @id @default(autoincrement())
+  title        String
+  code         String
+  language     String
+  authorId     String
+  tags         Tag[]     @relation("SnippetTags")
+  createdAt    DateTime  @default(now())
+  comments     Comment[]
+  author       User      @relation(fields: [authorId], references: [id])
+  isBookmarked Boolean   @default(false)
+  views        Int       @default(0)
+  copies       Int       @default(0)
+  Tag          Tag?      @relation(fields: [tagId], references: [id])
+  tagId        Int?
+  description  String
+}
+
+model Tag {
   id        Int       @id @default(autoincrement())
-  title     String
-  code      String
-  language  String
-  authorId  String
-  tags      String
-  createdAt DateTime  @default(now())
-  comments  Comment[]
-  author    User      @relation(fields: [authorId], references: [id])
+  name      String    @unique
+  snippets  Snippet[]
+  Snippet   Snippet?  @relation("SnippetTags", fields: [snippetId], references: [id])
+  snippetId Int?
 }
 
 model User {
@@ -28,6 +42,8 @@ model User {
   updatedAt     DateTime  @updatedAt
   snippets      Snippet[]
   comments      Comment[]
+  views         Int       @default(0)
+  copies        Int       @default(0)
 }
 
 model Comment {

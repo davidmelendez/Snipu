@@ -11,7 +11,8 @@ export default async function handler(
       const page = parseInt(req.query.page as string) || 1;
       const limit = parseInt(req.query.limit as string) || 10;
       const language = req.query.language as string;
-      const tags = req.query.tags as string;
+      const tags =
+        typeof req.query.tags === "string" ? req.query.tags.split(",") : [];
 
       // Calculate skip value for pagination
       const skip = (page - 1) * limit;
@@ -21,9 +22,14 @@ export default async function handler(
       if (language) {
         where.language = language;
       }
-      if (tags) {
+
+      if (tags.length > 0) {
         where.tags = {
-          contains: tags,
+          some: {
+            name: {
+              in: tags,
+            },
+          },
         };
       }
 
@@ -36,7 +42,7 @@ export default async function handler(
         skip,
         take: limit,
         orderBy: {
-          createdAt: 'desc',
+          createdAt: "desc",
         },
       });
 
@@ -64,12 +70,14 @@ export default async function handler(
       language,
       authorId,
       tags,
+      description,
     }: {
       title: string;
       code: string;
       language: string;
       authorId: string;
-      tags: string;
+      tags: string[];
+      description?: string;
     } = req.body;
 
     // Validation
@@ -92,11 +100,23 @@ export default async function handler(
           code,
           language,
           authorId,
-          tags,
+          description: description || "",
+          tags: {
+            create: tags.map((tag) => ({
+              name: tag,
+            })),
+          },
+          isBookmarked: false,
+          views: 0,
+          copies: 0,
+        },
+        include: {
+          tags: true,
+          author: true,
         },
       });
 
-      res.status(201).json(snippet); // Successfully created
+      res.status(201).json(snippet);
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error.message);
