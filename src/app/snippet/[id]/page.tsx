@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { deleteSnippet } from "@/actions";
 import { notFound } from "next/navigation";
-import CommentSection from "@/components/Comments/CommentSection";
+// import CommentSection from "@/components/Comments/CommentSection";
 import { getIPFSUrl } from "@/lib/ipfs";
 
 type SnippetDetailsProps = {
@@ -77,7 +77,7 @@ const SnippetDetailPage: React.FC<SnippetDetailsProps> = async ({ params }) => {
 
           {/* Comment Section */}
           <div className="mt-8 bg-slate-800/30 rounded-xl p-6 border border-slate-700">
-            <CommentSection snippetId={snippet.id} />
+            {/* <CommentSection snippetId={snippet.id} /> */}
           </div>
 
           <Link
