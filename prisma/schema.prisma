@@ -34,16 +34,14 @@ model Tag {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  walletAddress String    @unique
-  username      String    @unique
+  id            String   @id @default(uuid())
+  walletAddress String   @unique
+  username      String   @unique
   bio           String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   snippets      Snippet[]
-  comments      Comment[]
-  views         Int       @default(0)
-  copies        Int       @default(0)
+  comments Comment[]
 }
 
 model Comment {

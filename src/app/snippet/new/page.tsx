@@ -13,6 +13,9 @@ import {
   Globe,
   Lock,
   Check,
+  Star,
+  Bookmark,
+  BookmarkX,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -46,6 +49,7 @@ const CreateSnippetPage = () => {
 }
 </style>`);
   const [isEditing, setIsEditing] = useState(false);
+    const [isBookmarked, setIsBookmarked] = useState(false);
   const [isSaveEnabled, setIsSaveEnabled] = useState(false);
   const [initialDescription, setInitialDescription] = useState("");
   const [initialCode, setInitialCode] = useState(code);
@@ -83,6 +87,7 @@ const CreateSnippetPage = () => {
       }
 
       const savedSnippet = await response.json();
+      console.log("Snippet saved:", savedSnippet);
 
       setInitialDescription(description);
       setInitialCode(code);
@@ -123,6 +128,18 @@ const CreateSnippetPage = () => {
     if (!tags.includes(newTag)) {
       setTags((prev) => [...prev, newTag]);
     }
+  };
+
+  // Add this with your other functions
+  const handleToggleBookmark = () => {
+    setIsBookmarked(!isBookmarked);
+    toast({
+      title: isBookmarked ? "Removed from bookmarks" : "Added to bookmarks",
+      description: isBookmarked
+        ? "Snippet removed from your bookmarks"
+        : "Snippet saved to your bookmarks",
+      duration: 2000,
+    });
   };
 
   return (
@@ -331,6 +348,25 @@ const CreateSnippetPage = () => {
                   >
                     <Edit className="h-4 w-4 mr-2" />
                     <span>{isEditing ? "Cancel" : "Edit"}</span>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-gray-400 hover:text-white hover:bg-transparent transition-colors flex items-center"
+                    onClick={handleToggleBookmark}
+                    title="Bookmark this Snippet"
+                  >
+                    {isBookmarked ? (
+                      <>
+                        <Bookmark className="h-4 w-4 mr-2 fill-current" />
+                        <span>Bookmarked</span>
+                      </>
+                    ) : (
+                      <>
+                        <BookmarkX className="h-4 w-4 mr-2" />
+                        <span>Bookmark</span>
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>

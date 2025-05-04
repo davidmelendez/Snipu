@@ -41,9 +41,14 @@ export default async function handler(
         where,
         skip,
         take: limit,
-        orderBy: {
-          createdAt: "desc",
-        },
+        orderBy: [
+          {
+            isBookmarked: "desc",
+          },
+          {
+            createdAt: "desc",
+          },
+        ],
       });
 
       res.status(200).json({
@@ -71,6 +76,7 @@ export default async function handler(
       authorId,
       tags,
       description,
+      isBookmarked = false,
     }: {
       title: string;
       code: string;
@@ -78,6 +84,7 @@ export default async function handler(
       authorId: string;
       tags: string[];
       description?: string;
+      isBookmarked?: boolean;
     } = req.body;
 
     // Validation
@@ -123,6 +130,41 @@ export default async function handler(
         res.status(500).json({ message: error.message });
       } else {
         res.status(500).json({ message: "Something went wrong" });
+      }
+    }
+  } else if (req.method === "PATCH") {
+    console.log("PATCH request received");
+
+    const { id, isBookmarked } = req.body;
+
+    console.log("Request body:", { id, isBookmarked });
+
+    // Validate inputs
+    if (!id || typeof isBookmarked !== "boolean") {
+      console.log("Invalid input:", { id, isBookmarked });
+      return res.status(400).json({
+        message: "Invalid request. Both id and isBookmarked are required.",
+      });
+    }
+
+    try {
+      console.log("Attempting to update snippet with id:", id);
+
+      const updatedSnippet = await prisma.snippet.update({
+        where: { id: parseInt(id) },
+        data: { isBookmarked },
+      });
+
+      console.log("Snippet updated successfully:", updatedSnippet);
+
+      res.status(200).json(updatedSnippet);
+    } catch (error: unknown) {
+      console.error("Error updating snippet:", error);
+
+      if (error instanceof Error) {
+        res.status(500).json({ message: error.message });
+      } else {
+        res.status(500).json({ message: "Failed to update bookmark status" });
       }
     }
   } else {
