@@ -14,6 +14,7 @@ model Snippet {
   language  String
   authorId  String
   tags      String
+  ipfsCid   String?
   createdAt DateTime  @default(now())
   comments  Comment[]
   author    User      @relation(fields: [authorId], references: [id])

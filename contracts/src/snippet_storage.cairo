@@ -20,6 +20,7 @@ pub mod SnippetStorage {
         user_snippet_ids: Map<(ContractAddress, u32), felt252>,
         user_snippet_index: Map<(ContractAddress, felt252), u32>,
         comments: Map<felt252, (ContractAddress, felt252, felt252)>,
+        snippet_ipfs_cid: Map<felt252, felt252>,
     }
 
     #[event]
@@ -148,6 +149,18 @@ pub mod SnippetStorage {
                 i += 1;
             };
             snippets
+        }
+
+        fn store_snippet_ipfs_cid(ref self: ContractState, snippet_id: felt252, ipfs_cid: felt252) {
+            let owner = self.snippet_owner.read(snippet_id);
+            let caller = get_caller_address();
+            assert(owner == caller, ERR_NOT_AUTHORIZED);
+            assert(self.snippet_store.read(snippet_id) != 0, ERR_SNIPPET_NOT_FOUND);
+            self.snippet_ipfs_cid.write(snippet_id, ipfs_cid);
+        }
+
+        fn get_snippet_ipfs_cid(self: @ContractState, snippet_id: felt252) -> felt252 {
+            self.snippet_ipfs_cid.read(snippet_id)
         }
     }
 }

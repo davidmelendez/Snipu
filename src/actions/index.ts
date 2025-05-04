@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { uploadToIPFS } from "@/lib/ipfs";
 
 export const saveSnippet = async (id: number, code: string) => {
   await prisma.snippet.update({
@@ -26,57 +27,63 @@ export const deleteSnippet = async (id: number) => {
   redirect("/");
 };
 
-export async function createSnippet(
-  prevState: { message: string },
-  formData: FormData
-) {
+export async function createSnippet(prevState: any, formData: FormData) {
+  "use server"
+
   try {
-    const title = formData.get("title");
-    const code = formData.get("code");
-    const language = formData.get("language");
-    const authorId = formData.get("authorId");
-    const tags = formData.get("tags");
+    const title = formData.get("title") as string;
+    const code = formData.get("code") as string;
+    const language = formData.get("language") as string;
+    const authorId = formData.get("authorId") as string;
+    const tags = formData.get("tags") as string;
 
-    // Validation
-    if (typeof title !== "string" || title.length < 2) {
-      return { message: "Title is required and must be longer" };
+    // Validate inputs
+    if (!title || title.length < 3) {
+      return { message: "Title must be longer than 3 characters" };
+    }
+    if (!code || code.length < 10) {
+      return { message: "Code must be longer than 10 characters" };
     }
 
-    if (typeof code !== "string" || code.length < 8) {
-      return { message: "Code is required and must be longer" };
+    try {
+      // Upload to IPFS
+      const filename = `${title.replace(/\s+/g, '-')}.${language.toLowerCase()}`;
+      const cid = await uploadToIPFS(code, filename);
+
+      // Create snippet in database with CID
+      await prisma.snippet.create({
+        data: {
+          title,
+          code,
+          language,
+          authorId,
+          tags,
+          ipfsCid: cid
+        },
+      });
+
+      revalidatePath("/");
+      redirect("/");
+    } catch (ipfsError) {
+      console.error("IPFS upload failed:", ipfsError);
+      // Create snippet without CID if IPFS upload fails
+      await prisma.snippet.create({
+        data: {
+          title,
+          code,
+          language,
+          authorId,
+          tags,
+        },
+      });
+      
+      revalidatePath("/");
+      redirect("/");
     }
-
-    // Send data to the backend API to create the snippet
-    const response = await fetch("/pages/api/snippets", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title,
-        code,
-        language,
-        authorId,
-        tags,
-      }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      return { message: data.message || "Something went wrong" };
-    }
-
-    // Revalidate path and redirect if successful
-    revalidatePath("/");
-    redirect("/");
   } catch (error: unknown) {
-    // Directly return message if error instance matches
     if (error instanceof Error) {
       return { message: error.message };
     }
-
-    // Return fallback message for other errors
     return { message: "Something went wrong" };
   }
 }
