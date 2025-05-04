@@ -36,6 +36,7 @@ export async function createSnippet(prevState: any, formData: FormData) {
     const language = formData.get("language") as string;
     const authorId = formData.get("authorId") as string;
     const tags = formData.get("tags") as string;
+    const description = formData.get("description") as string || ""; // Add description with default empty string
 
     // Validate inputs
     if (!title || title.length < 3) {
@@ -57,7 +58,12 @@ export async function createSnippet(prevState: any, formData: FormData) {
           code,
           language,
           authorId,
-          tags,
+          description, // Add the description field
+          tags: tags ? {
+            create: tags.split(',').map(tag => ({
+              name: tag.trim()
+            }))
+          } : undefined,
           ipfsCid: cid
         },
       });
@@ -73,7 +79,12 @@ export async function createSnippet(prevState: any, formData: FormData) {
           code,
           language,
           authorId,
-          tags,
+          description, // Add the description field here too
+          tags: tags ? {
+            create: tags.split(',').map(tag => ({
+              name: tag.trim()
+            }))
+          } : undefined,
         },
       });
       

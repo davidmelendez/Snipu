@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -13,36 +14,36 @@ model Snippet {
   code         String
   language     String
   authorId     String
-  tags         Tag[]     @relation("SnippetTags")
   createdAt    DateTime  @default(now())
-  comments     Comment[]
-  author       User      @relation(fields: [authorId], references: [id])
   isBookmarked Boolean   @default(false)
   views        Int       @default(0)
   copies       Int       @default(0)
-  Tag          Tag?      @relation(fields: [tagId], references: [id])
   tagId        Int?
   description  String
-  ipfsCid      String?
+  ipfsCid      String?   
+  comments     Comment[]
+  Tag          Tag?      @relation(fields: [tagId], references: [id])
+  author       User      @relation(fields: [authorId], references: [id])
+  tags         Tag[]     @relation("SnippetTags")
 }
 
 model Tag {
   id        Int       @id @default(autoincrement())
   name      String    @unique
+  snippetId Int?
   snippets  Snippet[]
   Snippet   Snippet?  @relation("SnippetTags", fields: [snippetId], references: [id])
-  snippetId Int?
 }
 
 model User {
-  id            String   @id @default(uuid())
-  walletAddress String   @unique
-  username      String   @unique
+  id            String    @id @default(uuid())
+  walletAddress String    @unique
+  username      String    @unique
   bio           String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   snippets      Snippet[]
-  comments Comment[]
+  comments      Comment[]
 }
 
 model Comment {
