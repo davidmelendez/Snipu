@@ -322,64 +322,66 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-hero-gradient bg-[#121212] w-full">
+    <>
       <Header />
-      <div className="w-full min-h-screen mb-10">
-        <div className="max-w-[75rem] mx-auto animate-fade-in">
-          <div className="text-center mb-12">
-            <h1 className="text-5xl font-extrabold text-white mt-16">
-              Your Collection of Code Snippets{" "}
-            </h1>
-            <p className="mt-4 text-lg text-white">
-              Store, organize and share your code snippets efficiently{" "}
-            </p>
-          </div>
-          <div>
-            <h2 className="text-3xl font-semibold text-white mb-5">
-              My Snippets
-            </h2>
-          </div>
-          <div className="flex items-center justify-between mb-8">
-            <SearchAndFilterSection
-              searchQuery={searchQuery}
-              languageFilter={languageFilter}
-              viewMode={viewMode}
-              onSearchChange={setSearchQuery}
-              onLanguageChange={setLanguageFilter}
-              onViewModeToggle={toggleViewMode}
-            />
-            <Link href="/snippet/new">
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-lg transform transition-all duration-200 hover:scale-105 shadow-lg">
-                + New Snippet
-              </Button>
-            </Link>
-          </div>
-          <div className="space-y-4">
-            <div
-              className={
-                viewMode === "grid"
-                  ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                  : "flex-row gap-4"
-              }
-            >
-              {loading ? (
-                <Loading />
-              ) : snippets.length > 0 ? (
-                filteredSnippets.map((snippet) => (
-                  <SnippetCard
-                    key={snippet.id}
-                    snippet={snippet}
-                    viewMode={viewMode}
-                  />
-                ))
-              ) : (
-                <NoSnippetFound />
-              )}
+      <div className="bg-hero-gradient bg-[#121212] w-full  sm:p-10 p-10">
+        <div className="w-full min-h-screen mb-10">
+          <div className="max-w-[75rem] mx-auto animate-fade-in">
+            <div className="text-center mb-12">
+              <h1 className="md:text-5xl text-2xl font-extrabold text-white mt-16">
+                Your Collection of Code Snippets{" "}
+              </h1>
+              <p className="md:text-lg mt-4 text-sm text-white">
+                Store, organize and share your code snippets efficiently{" "}
+              </p>
+            </div>
+            <div>
+              <h2 className="text-3xl font-semibold text-white mb-5">
+                My Snippets
+              </h2>
+            </div>
+            <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+              <SearchAndFilterSection
+                searchQuery={searchQuery}
+                languageFilter={languageFilter}
+                viewMode={viewMode}
+                onSearchChange={setSearchQuery}
+                onLanguageChange={setLanguageFilter}
+                onViewModeToggle={toggleViewMode}
+              />
+              <Link href="/snippet/new">
+                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-lg transform transition-all duration-200 hover:scale-105 shadow-lg">
+                  + New Snippet
+                </Button>
+              </Link>
+            </div>
+            <div className="space-y-4">
+              <div
+                className={
+                  viewMode === "grid"
+                    ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                    : "flex-row gap-4"
+                }
+              >
+                {loading ? (
+                  <Loading />
+                ) : snippets.length > 0 ? (
+                  filteredSnippets.map((snippet) => (
+                    <SnippetCard
+                      key={snippet.id}
+                      snippet={snippet}
+                      viewMode={viewMode}
+                    />
+                  ))
+                ) : (
+                  <NoSnippetFound />
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
       <Footer />
-    </div>
+    </>
   );
 }

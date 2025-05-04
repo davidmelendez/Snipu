@@ -126,8 +126,10 @@ const CreateSnippetPage = () => {
   };
 
   return (
-    <div className="bg-hero-gradient min-h-screen bg-[#121212] text-gray-200 flex items-center justify-center flex-col w-full">
+    <>
+    
       <Header />
+    <div className="bg-hero-gradient min-h-screen bg-[#121212] text-gray-200 flex items-center justify-center flex-col w-full  sm:p-10 p-10">
       <div className="justify-start w-full max-w-[75rem] mx-auto flex items-center gap-2 m-4">
         <Button
           variant="outline"
@@ -141,7 +143,7 @@ const CreateSnippetPage = () => {
           <span className="text-gray-400"> Back to snippets</span>
         </Button>
       </div>
-      <div className="bg-[#190B2D73] rounded-lg  w-full max-w-[75rem] mx-auto flex flex-col items-center">
+      <div className="bg-[#190B2D73] rounded-lg  w-full max-w-[75rem] mx-auto flex flex-col items-center sm:p-10 p-10">
         {/* Main container with visible border */}
         <div className="w-full max-w-[62.5rem] mt-14 ">
           <div className="w-full mb-8">
@@ -480,8 +482,9 @@ const CreateSnippetPage = () => {
           </Button>
         </div>
       </div>
-      <Footer />
     </div>
+      <Footer />
+    </>
   );
 };
 

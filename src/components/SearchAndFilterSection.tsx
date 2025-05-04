@@ -22,7 +22,7 @@ export function SearchAndFilterSection({
   onViewModeToggle,
 }: SearchAndFilterSectionProps) {
   return (
-    <div className="flex gap-2 relative w-full max-w-sm justify-between">
+    <div className="flex gap-2 relative w-full max-w-sm justify-between flex-wrap md:flex-nowrap">
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6A6A6A] w-5 h-5" />
         <input
