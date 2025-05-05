@@ -5,6 +5,7 @@ import React from "react";
 import { deleteSnippet } from "@/actions";
 import { notFound } from "next/navigation";
 // import CommentSection from "@/components/Comments/CommentSection";
+import { getIPFSUrl } from "@/lib/ipfs";
 
 type SnippetDetailsProps = {
   params: Promise<{ id: string }>;
@@ -51,6 +52,20 @@ const SnippetDetailPage: React.FC<SnippetDetailsProps> = async ({ params }) => {
               </form>
             </div>
           </div>
+
+          {/* Add IPFS link if available */}
+          {snippet.ipfsCid && (
+            <div className="mt-2">
+              <a 
+                href={getIPFSUrl(snippet.ipfsCid)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 transition-colors"
+              >
+                View on IPFS
+              </a>
+            </div>
+          )}
 
           <div className="group">
             <pre className="p-6 bg-gradient-to-r from-slate-800 to-slate-900 rounded-xl border border-slate-700 hover:border-blue-500 transition-all duration-300 overflow-x-auto">
