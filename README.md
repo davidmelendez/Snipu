@@ -372,6 +372,13 @@ The frontend should now be running at `http://localhost:3000`
       <sub>2 commits</sub>
     </td>
     <td align="center">
+      <a href="https://github.com/apps/github-actions">
+        <img src="https://avatars.githubusercontent.com/in/15368?v=4" width="64" height="64" alt="github-actions[bot]"><br />
+        <sub><b>github-actions[bot]</b></sub>
+      </a><br />
+      <sub>2 commits</sub>
+    </td>
+    <td align="center">
       <a href="https://github.com/czDamian">
         <img src="https://avatars.githubusercontent.com/u/65533328?v=4" width="64" height="64" alt="czDamian"><br />
         <sub><b>czDamian</b></sub>
@@ -392,6 +399,8 @@ The frontend should now be running at `http://localhost:3000`
       </a><br />
       <sub>2 commits</sub>
     </td>
+  </tr>
+  <tr>
     <td align="center">
       <a href="https://github.com/archanadby05">
         <img src="https://avatars.githubusercontent.com/u/121479321?v=4" width="64" height="64" alt="archanadby05"><br />
@@ -399,19 +408,10 @@ The frontend should now be running at `http://localhost:3000`
       </a><br />
       <sub>2 commits</sub>
     </td>
-  </tr>
-  <tr>
     <td align="center">
       <a href="https://github.com/yashtech00">
         <img src="https://avatars.githubusercontent.com/u/141262414?v=4" width="64" height="64" alt="yashtech00"><br />
         <sub><b>yashtech00</b></sub>
-      </a><br />
-      <sub>1 commits</sub>
-    </td>
-    <td align="center">
-      <a href="https://github.com/apps/github-actions">
-        <img src="https://avatars.githubusercontent.com/in/15368?v=4" width="64" height="64" alt="github-actions[bot]"><br />
-        <sub><b>github-actions[bot]</b></sub>
       </a><br />
       <sub>1 commits</sub>
     </td>
