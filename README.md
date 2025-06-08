@@ -335,6 +335,13 @@ The frontend should now be running at `http://localhost:3000`
       <sub>3 commits</sub>
     </td>
     <td align="center">
+      <a href="https://github.com/apps/github-actions">
+        <img src="https://avatars.githubusercontent.com/in/15368?v=4" width="64" height="64" alt="github-actions[bot]"><br />
+        <sub><b>github-actions[bot]</b></sub>
+      </a><br />
+      <sub>3 commits</sub>
+    </td>
+    <td align="center">
       <a href="https://github.com/Haroldwonder">
         <img src="https://avatars.githubusercontent.com/u/194428112?v=4" width="64" height="64" alt="Haroldwonder"><br />
         <sub><b>Haroldwonder</b></sub>
@@ -348,6 +355,8 @@ The frontend should now be running at `http://localhost:3000`
       </a><br />
       <sub>2 commits</sub>
     </td>
+  </tr>
+  <tr>
     <td align="center">
       <a href="https://github.com/shrestha-das">
         <img src="https://avatars.githubusercontent.com/u/178530177?v=4" width="64" height="64" alt="shrestha-das"><br />
@@ -355,8 +364,6 @@ The frontend should now be running at `http://localhost:3000`
       </a><br />
       <sub>2 commits</sub>
     </td>
-  </tr>
-  <tr>
     <td align="center">
       <a href="https://github.com/shamoo53">
         <img src="https://avatars.githubusercontent.com/u/170348515?v=4" width="64" height="64" alt="shamoo53"><br />
@@ -368,13 +375,6 @@ The frontend should now be running at `http://localhost:3000`
       <a href="https://github.com/omsant02">
         <img src="https://avatars.githubusercontent.com/u/102831123?v=4" width="64" height="64" alt="omsant02"><br />
         <sub><b>omsant02</b></sub>
-      </a><br />
-      <sub>2 commits</sub>
-    </td>
-    <td align="center">
-      <a href="https://github.com/apps/github-actions">
-        <img src="https://avatars.githubusercontent.com/in/15368?v=4" width="64" height="64" alt="github-actions[bot]"><br />
-        <sub><b>github-actions[bot]</b></sub>
       </a><br />
       <sub>2 commits</sub>
     </td>
