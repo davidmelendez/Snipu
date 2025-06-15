@@ -314,6 +314,13 @@ The frontend should now be running at `http://localhost:3000`
   </tr>
   <tr>
     <td align="center">
+      <a href="https://github.com/apps/github-actions">
+        <img src="https://avatars.githubusercontent.com/in/15368?v=4" width="64" height="64" alt="github-actions[bot]"><br />
+        <sub><b>github-actions[bot]</b></sub>
+      </a><br />
+      <sub>4 commits</sub>
+    </td>
+    <td align="center">
       <a href="https://github.com/anneyomeje">
         <img src="https://avatars.githubusercontent.com/u/103583132?v=4" width="64" height="64" alt="anneyomeje"><br />
         <sub><b>anneyomeje</b></sub>
@@ -331,13 +338,6 @@ The frontend should now be running at `http://localhost:3000`
       <a href="https://github.com/Michelle031">
         <img src="https://avatars.githubusercontent.com/u/70325824?v=4" width="64" height="64" alt="Michelle031"><br />
         <sub><b>Michelle031</b></sub>
-      </a><br />
-      <sub>3 commits</sub>
-    </td>
-    <td align="center">
-      <a href="https://github.com/apps/github-actions">
-        <img src="https://avatars.githubusercontent.com/in/15368?v=4" width="64" height="64" alt="github-actions[bot]"><br />
-        <sub><b>github-actions[bot]</b></sub>
       </a><br />
       <sub>3 commits</sub>
     </td>
