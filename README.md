@@ -298,16 +298,16 @@ The frontend should now be running at `http://localhost:3000`
       <sub>8 commits</sub>
     </td>
     <td align="center">
-      <a href="https://github.com/gethsun1">
-        <img src="https://avatars.githubusercontent.com/u/56596995?v=4" width="64" height="64" alt="gethsun1"><br />
-        <sub><b>gethsun1</b></sub>
-      </a><br />
-      <sub>6 commits</sub>
-    </td>
-    <td align="center">
       <a href="https://github.com/apps/github-actions">
         <img src="https://avatars.githubusercontent.com/in/15368?v=4" width="64" height="64" alt="github-actions[bot]"><br />
         <sub><b>github-actions[bot]</b></sub>
+      </a><br />
+      <sub>7 commits</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/gethsun1">
+        <img src="https://avatars.githubusercontent.com/u/56596995?v=4" width="64" height="64" alt="gethsun1"><br />
+        <sub><b>gethsun1</b></sub>
       </a><br />
       <sub>6 commits</sub>
     </td>
