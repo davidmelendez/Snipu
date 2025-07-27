@@ -277,18 +277,18 @@ The frontend should now be running at `http://localhost:3000`
       <sub>55 commits</sub>
     </td>
     <td align="center">
+      <a href="https://github.com/apps/github-actions">
+        <img src="https://avatars.githubusercontent.com/in/15368?v=4" width="64" height="64" alt="github-actions[bot]"><br />
+        <sub><b>github-actions[bot]</b></sub>
+      </a><br />
+      <sub>10 commits</sub>
+    </td>
+    <td align="center">
       <a href="https://github.com/gchyuli">
         <img src="https://avatars.githubusercontent.com/u/114550704?v=4" width="64" height="64" alt="gchyuli"><br />
         <sub><b>gchyuli</b></sub>
       </a><br />
       <sub>10 commits</sub>
-    </td>
-    <td align="center">
-      <a href="https://github.com/apps/github-actions">
-        <img src="https://avatars.githubusercontent.com/in/15368?v=4" width="64" height="64" alt="github-actions[bot]"><br />
-        <sub><b>github-actions[bot]</b></sub>
-      </a><br />
-      <sub>9 commits</sub>
     </td>
     <td align="center">
       <a href="https://github.com/josephchimebuka">
