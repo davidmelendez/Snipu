@@ -274,7 +274,7 @@ The frontend should now be running at `http://localhost:3000`
         <img src="https://avatars.githubusercontent.com/in/15368?v=4" width="64" height="64" alt="github-actions[bot]"><br />
         <sub><b>github-actions[bot]</b></sub>
       </a><br />
-      <sub>55 commits</sub>
+      <sub>56 commits</sub>
     </td>
     <td align="center">
       <a href="https://github.com/SudiptaPaul-31">
@@ -298,21 +298,12 @@ The frontend should now be running at `http://localhost:3000`
       <sub>8 commits</sub>
     </td>
     <td align="center">
-      <a href="https://github.com/caxtonacollins">
-        <img src="https://avatars.githubusercontent.com/u/166155946?v=4" width="64" height="64" alt="caxtonacollins"><br />
-        <sub><b>caxtonacollins</b></sub>
-      </a><br />
-      <sub>8 commits</sub>
-    </td>
-    <td align="center">
       <a href="https://github.com/gethsun1">
         <img src="https://avatars.githubusercontent.com/u/56596995?v=4" width="64" height="64" alt="gethsun1"><br />
         <sub><b>gethsun1</b></sub>
       </a><br />
       <sub>6 commits</sub>
     </td>
-  </tr>
-  <tr>
     <td align="center">
       <a href="https://github.com/chiscookeke11">
         <img src="https://avatars.githubusercontent.com/u/137373308?v=4" width="64" height="64" alt="chiscookeke11"><br />
@@ -320,6 +311,8 @@ The frontend should now be running at `http://localhost:3000`
       </a><br />
       <sub>6 commits</sub>
     </td>
+  </tr>
+  <tr>
     <td align="center">
       <a href="https://github.com/anneyomeje">
         <img src="https://avatars.githubusercontent.com/u/103583132?v=4" width="64" height="64" alt="anneyomeje"><br />
@@ -355,8 +348,6 @@ The frontend should now be running at `http://localhost:3000`
       </a><br />
       <sub>2 commits</sub>
     </td>
-  </tr>
-  <tr>
     <td align="center">
       <a href="https://github.com/shrestha-das">
         <img src="https://avatars.githubusercontent.com/u/178530177?v=4" width="64" height="64" alt="shrestha-das"><br />
@@ -364,6 +355,8 @@ The frontend should now be running at `http://localhost:3000`
       </a><br />
       <sub>2 commits</sub>
     </td>
+  </tr>
+  <tr>
     <td align="center">
       <a href="https://github.com/shamoo53">
         <img src="https://avatars.githubusercontent.com/u/170348515?v=4" width="64" height="64" alt="shamoo53"><br />
@@ -399,8 +392,6 @@ The frontend should now be running at `http://localhost:3000`
       </a><br />
       <sub>2 commits</sub>
     </td>
-  </tr>
-  <tr>
     <td align="center">
       <a href="https://github.com/archanadby05">
         <img src="https://avatars.githubusercontent.com/u/121479321?v=4" width="64" height="64" alt="archanadby05"><br />
@@ -408,10 +399,19 @@ The frontend should now be running at `http://localhost:3000`
       </a><br />
       <sub>2 commits</sub>
     </td>
+  </tr>
+  <tr>
     <td align="center">
       <a href="https://github.com/AfroTechBoss">
         <img src="https://avatars.githubusercontent.com/u/153952115?v=4" width="64" height="64" alt="AfroTechBoss"><br />
         <sub><b>AfroTechBoss</b></sub>
+      </a><br />
+      <sub>1 commits</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/OsagieCynthia">
+        <img src="https://avatars.githubusercontent.com/u/76167825?v=4" width="64" height="64" alt="OsagieCynthia"><br />
+        <sub><b>OsagieCynthia</b></sub>
       </a><br />
       <sub>1 commits</sub>
     </td>
